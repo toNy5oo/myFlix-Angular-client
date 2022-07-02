@@ -13,10 +13,11 @@ const apiUrl = 'https://my-flix-cf.herokuapp.com/';
 @Injectable({
   providedIn: 'root',
 })
-export class UserRegistrationService {
+export class FetchDataService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {}
+
   // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
@@ -28,7 +29,9 @@ export class UserRegistrationService {
   // Login Endpoint
   public userLogin(userCredentials: any): Observable<any> {
     console.log(userCredentials);
-    return this.http.get(apiUrl + 'login').pipe(catchError(this.handleError));
+    return this.http
+      .post(apiUrl + 'login', userCredentials)
+      .pipe(catchError(this.handleError));
   }
 
   getAllMovies(): Observable<any> {
@@ -145,8 +148,9 @@ export class UserRegistrationService {
     if (error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
+      console.log(error);
       console.error(
-        `Error Status code ${error.status}, ` + `Error body is: ${error.error}`
+        `Error Status code ${error.status}, Error body is: ${error.error}`
       );
     }
     throwError(

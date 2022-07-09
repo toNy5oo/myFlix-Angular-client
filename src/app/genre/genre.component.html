@@ -1,0 +1,17 @@
+<mat-card class="genre-dialog">
+    <div *ngFor="let genre of data.genresArray">
+        <p>
+            <mat-card-title class="genre-dialog-title">
+                {{ genre.Name }}
+            </mat-card-title>
+            <mat-dialog-content class="genre-dialog-content">
+                {{ genre.Description }}
+            </mat-dialog-content>
+        </p>
+    </div>
+    <mat-card-actions class="genre-actions">
+        <button class="genre-close-button" mat-stroked-button aria-label="Close the genre details button" mat-dialog-close color="primary">
+      Close
+    </button>
+    </mat-card-actions>
+</mat-card>

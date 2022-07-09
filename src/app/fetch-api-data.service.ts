@@ -56,10 +56,25 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  getDirector(directorID: any): Observable<any> {
+  // getFavoriteMovies(userId): Observable<any> {
+  // // Get Authorization token stored in local storage
+  // const token = localStorage.getItem('token');
+  // // Get Username stored in local storage
+  // const username = localStorage.getItem('user');
+  // return this.http
+  //   .get(apiUrl + `users/${username}/movies`, {
+  //     headers: new HttpHeaders({
+  //       Authorization: 'Bearer ' + token,
+  //     }),
+  //   })
+  //   .pipe(map(this.extractResponseData), catchError(this.handleError));
+
+  // }
+
+  getDirectorsList(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
-      .get(apiUrl + `movies/directors/${directorID}`, {
+      .get(apiUrl + `directors`, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
         }),
@@ -67,10 +82,10 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  getGenre(genreID: any): Observable<any> {
+  getGenresList(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http
-      .get(apiUrl + `genres/${genreID}`, {
+      .get(apiUrl + `genres`, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
         }),
@@ -90,18 +105,22 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
+  // .route("users/:username/favs/:movieID")
   addFavoriteMovie(movieID: string): Observable<any> {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
+
     return this.http
-      .post(apiUrl + `users/${username}/favs/${movieID}`, null, {
+      .put(apiUrl + `users/${username}/favs/${movieID}`, null, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
+          responseType: 'text',
         }),
       })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
+  // .route("users/:username/favs/:movieID")
   removeFavoriteMovie(movieID: any): Observable<any> {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
@@ -114,6 +133,7 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
+  // router.put("users/:username/update" PUT
   editUser(updateDetails: any): Observable<any> {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
@@ -126,6 +146,7 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
+  // router.put("users/:username/" DELETE
   deleteUser(): Observable<any> {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
@@ -152,6 +173,7 @@ export class FetchDataService {
       console.error(
         `Error Status code ${error.status}, Error body is: ${error.error}`
       );
+      console.table(error);
     }
     throwError(
       () => new Error('Something bad happened; please try again later.')

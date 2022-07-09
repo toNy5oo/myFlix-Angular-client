@@ -56,21 +56,6 @@ export class FetchDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // getFavoriteMovies(userId): Observable<any> {
-  // // Get Authorization token stored in local storage
-  // const token = localStorage.getItem('token');
-  // // Get Username stored in local storage
-  // const username = localStorage.getItem('user');
-  // return this.http
-  //   .get(apiUrl + `users/${username}/movies`, {
-  //     headers: new HttpHeaders({
-  //       Authorization: 'Bearer ' + token,
-  //     }),
-  //   })
-  //   .pipe(map(this.extractResponseData), catchError(this.handleError));
-
-  // }
-
   getDirectorsList(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http

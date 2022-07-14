@@ -100,6 +100,14 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/my-flix-angular-client",
+            "netlifyToken": "FD-OX2gXAe0_CbiKVUvmariGM4y6MV-_bArSPJpWWaA",
+            "siteId": "dca0cc85-a048-4a20-b170-286e66ffb3a4"
+          }
         }
       }
     }

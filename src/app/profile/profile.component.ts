@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FetchDataService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
 
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 
@@ -16,13 +16,18 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   user: any = {};
 
+  /** @constructor */
   constructor(
-    public fetchApiData: FetchDataService,
+    public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
     public router: Router,
     public snackBar: MatSnackBar
   ) {}
 
+  /**
+   * Initialize the component loading the data
+   * @function ngOnInit
+   */
   ngOnInit(): void {
     this.getUser();
   }
@@ -41,7 +46,8 @@ export class ProfileComponent implements OnInit {
   }
 
   /**
-   * opens the edit profile dialog from EditProfileComponent to allow user to edit their details
+   * Opens the dialog to edit the profile (EditProfileComponent)
+   * @function openEditProfileDialog
    */
   openEditProfileDialog(): void {
     this.dialog.open(EditProfileComponent, {
@@ -50,8 +56,8 @@ export class ProfileComponent implements OnInit {
   }
 
   /**
-   * deletes the user profile, redirects to welcome screen
-   * @function deleteUser
+   * Deletes the user profile routing on success to welcome screen
+   * @function deleteProfile
    */
   deleteProfile(): void {
     if (

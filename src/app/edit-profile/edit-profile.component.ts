@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FetchDataService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ export class EditProfileComponent implements OnInit {
   @Input() userData: any = {};
 
   constructor(
-    public fetchApiData: FetchDataService,
+    public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<EditProfileComponent>,
     public snackBar: MatSnackBar,
     public router: Router
@@ -22,7 +22,9 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {}
 
   /**
-   * allows user to edit their data, such as Username, password, email, and birthday
+   * Access the API sending a POST request with the new parameters to update the user profile
+   * If username or password is updated, logout and route to welcome
+   * @function editUser
    */
   editUser(): void {
     console.log(this.userData);

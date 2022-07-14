@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DirectorComponent } from '../director/director.component';
-import { FetchDataService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
 import { GenreComponent } from '../genre/genre.component';
 import { SynopsisComponent } from '../synopsis/synopsis.component';
 
@@ -23,7 +23,7 @@ export class MovieCardComponent {
   user: any = Object;
 
   constructor(
-    public fetchApiData: FetchDataService,
+    public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar
   ) {}
@@ -34,7 +34,11 @@ export class MovieCardComponent {
     this.getGenres();
   }
 
-  //Fetch movies and set the state
+  /**
+   * Gets all the movies using API service and populate local state variable
+   * @returns array of movies objects
+   * @function getMovies
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
@@ -43,7 +47,11 @@ export class MovieCardComponent {
     });
   }
 
-  //Fetch directors and set the state
+  /**
+   * Gets all the directors using API service and populate local state variable
+   * @returns array of directors objects
+   * @function getDirectors
+   */
   getDirectors(): void {
     this.fetchApiData.getDirectorsList().subscribe((resp: any) => {
       this.directors = resp;
@@ -51,7 +59,11 @@ export class MovieCardComponent {
     });
   }
 
-  //Fetch genres and set the state
+  /**
+   * Gets all the genres using API service and populate local state variable
+   * @returns array of genres objects
+   * @function getGenres
+   */
   getGenres(): void {
     this.fetchApiData.getGenresList().subscribe((resp: any) => {
       this.genres = resp;
@@ -59,6 +71,12 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Gets the user data using API service and populate local state variable
+   * Sets local state FavoriteMovies with array of ids from user Object
+   * @returns user objects
+   * @function getMissingData
+   */
   getMissingData(): void {
     this.fetchApiData.getUser().subscribe((resp: any) => {
       this.user = resp;
@@ -68,22 +86,37 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Matches director id and return the name
+   * @returns director.Name: string
+   * @function findDirectorName
+   */
   findDirectorName(id: string) {
     let director = this.directors.find((director) => id === director._id);
     return director.Name;
   }
 
+  /**
+   * Checks if a movie is included in the user's list of favorite movies
+   * @param id
+   * @returns true if the movie is in the array
+   * @function isFav
+   */
   isFav(id: any): boolean {
     return this.favoriteMovies.includes(id);
   }
 
+  /**
+   * Opens the genre dialog from GenreComponent
+   * @param ids: string[]
+   * @function openGenreDialog
+   */
   openGenreDialog(ids: string[]): void {
     let genresDataArray: any[] = [];
     ids.forEach((genre) => {
       let genresObj = this.genres.find((g) => genre === g._id);
       genresDataArray.push(genresObj);
     });
-    //Movie can have more than one genre
     this.dialog.open(GenreComponent, {
       data: {
         genresArray: genresDataArray,
@@ -92,6 +125,11 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Opens the director dialog from DirectorComponent
+   * @param id: string[]
+   * @function openDirectorDialog
+   */
   openDirectorDialog(id: string): void {
     let directorData = this.directors.find((director) => id === director._id);
     this.dialog.open(DirectorComponent, {
@@ -103,6 +141,12 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Opens the synopsys dialog from SynopsysComponent
+   * @param title
+   * @param description
+   * @function openSynopsisDialog
+   */
   openSynopsisDialog(title: string, description: string): void {
     this.dialog.open(SynopsisComponent, {
       data: {
@@ -113,6 +157,11 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Add a movie to the list of favorite movies using API service
+   * @param id
+   * @function addToFavoriteMovies
+   */
   addToFavoriteMovies(id: string): void {
     this.fetchApiData.addFavoriteMovie(id).subscribe((result) => {
       console.log(result);
@@ -120,6 +169,11 @@ export class MovieCardComponent {
     });
   }
 
+  /**
+   * Remove a movie from the list of favorite movies using API service
+   * @param id
+   * @function removeFromFavoriteMovies
+   */
   removeFromFavoriteMovies(id: string): void {
     console.log(id);
     this.fetchApiData.removeFavoriteMovie(id).subscribe((result) => {

@@ -4,7 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 // This import brings in the API calls we created in 6.2
-import { FetchDataService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
 
 // This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,7 +19,7 @@ export class UserLoginFormComponent implements OnInit {
   @Input() userCredentials = { Username: '', Password: '' };
 
   constructor(
-    public fetchApiData: FetchDataService,
+    public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
     public snackBar: MatSnackBar,
     public router: Router
@@ -27,6 +27,11 @@ export class UserLoginFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Login function
+   * When successful, route to /movies
+x  * @function loginUser
+   */
   loginUser(): void {
     this.fetchApiData.userLogin(this.userCredentials).subscribe(
       (result) => {
